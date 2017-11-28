@@ -12,7 +12,7 @@ As of 2017-28-11, the plan is to use a wheeled device with two encoders a set di
 The following things need to be completed:
 - Select encoder library
 
-  You could write your own encoder code like in the example above, but that is prone to issues. Look for multiple encoder support.
+  You could write your own encoder code like in the example below, but that is prone to issues. Look for multiple encoder support.
 - Write data to SD card
 
   Write the data we get out from an run of the trackwalker to a file. You could make your own file format or just write to a txt or csv.
