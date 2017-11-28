@@ -6,7 +6,7 @@ The following document is meant to be a guide to starting work on this project, 
 ## Goals
 The main goal of this project is to generate a RoseLap track file (see TrackGen project for details) from encoder data.
 
-As of 2017-28-11, the plan is to use a wheeled device with two encoders a set distance apart (say, D) and use their differences in angular displacement to determine the curvature of the track at various points. [This file](reference/CurvatureThing.m) has an example of how that will work. From that data we can generate a list of RoseLap compatible track segments which can then be used for analysis.
+As of 2017-28-11, the plan is to use a wheeled device with two encoders a set distance apart (say, D) and use their differences in angular displacement to determine the curvature of the track at various points. [This file](resources/CurvatureThing.m) has an example of how that will work. From that data we can generate a list of RoseLap compatible track segments which can then be used for analysis.
 
 ## Tasks
 The following things need to be completed:
