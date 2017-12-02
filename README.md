@@ -30,4 +30,39 @@ As of 2017-28-11, there is an Arduino set up to read the data from a single enco
 
 ![Arduino/Encoder Wiring](resources/arduinowiring.jpg)
 
-Though perhaps hard to make out, the general idea is that black is ground (GND), and the green and white encoder wires are connected to digital pins 3 and 4. The arduino can be connected to any computer with the [Arduino IDE](https://www.arduino.cc/en/Main/Software) and data can be read through the Serial Monitor (Tools -> Serial Monitor) after uploading [code such as this](https://playground.arduino.cc/Main/RotaryEncoders) to the arduino.
+Though perhaps hard to make out, the general idea is that black is ground (GND), and the green and white encoder wires are connected to digital pins 3 and 4. The arduino can be connected to any computer with the [Arduino IDE](https://www.arduino.cc/en/Main/Software) and data can be read through the Serial Monitor (Tools -> Serial Monitor) after uploading the code below to the arduino.
+```c
+/* Read Quadrature Encoder
+   Connect Encoder to Pins encoder0PinA, encoder0PinB, and +5V.
+
+   Sketch by max wolf / www.meso.net
+   v. 0.1 - very basic functions - mw 20061220
+
+*/
+
+int val;
+int encoder0PinA = 3;
+int encoder0PinB = 4;
+int encoder0Pos = 0;
+int encoder0PinALast = LOW;
+int n = LOW;
+
+void setup() {
+  pinMode (encoder0PinA, INPUT);
+  pinMode (encoder0PinB, INPUT);
+  Serial.begin (9600);
+}
+
+void loop() {
+  n = digitalRead(encoder0PinA);
+  if ((encoder0PinALast == LOW) && (n == HIGH)) {
+    if (digitalRead(encoder0PinB) == LOW) {
+      encoder0Pos--;
+    } else {
+      encoder0Pos++;
+    }
+    Serial.println(encoder0Pos);
+  }
+  encoder0PinALast = n;
+}
+```
