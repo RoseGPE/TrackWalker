@@ -10,24 +10,27 @@
 
 #include <Encoder.h>
 
-Encoder knobLeft(2, 3);
+Encoder knobLeft(20, 21);
 Encoder knobRight(18, 19);
 
 #include <SPI.h>
 #include <SD.h>
 const int chipSelect = 53;
 
-const int readyLight = 4;
-const int loggingLight = 5;
+const int readyLight = 15;
+const int loggingLight = 16;
 
-const int logSelectionPin = 6;
+const int logSelectionPin = 17;
 const int sampleTol = 10;
 
 void setup() {
   Serial.begin(9600);
 
+  pinMode(loggingLight, OUTPUT);
   digitalWrite(loggingLight,LOW);
+  pinMode(readyLight, OUTPUT);
   digitalWrite(readyLight,LOW);
+  pinMode(logSelectionPin, INPUT_PULLUP);
 
 
   Serial.print("Initializing SD card...");
@@ -50,9 +53,17 @@ long positionRight = -999;
 void loop() {
   File dataFile;
   bool startup = 1;
-  while(digitalRead(logSelectionPin) && dataFile) {
+  while(digitalRead(logSelectionPin)) {
     if (startup) {
-      dataFile = SD.open("walkerlog.txt", FILE_WRITE);
+      Serial.println("Lets go");
+      char filename[] = "xxxxxxxx.log";
+      long i;
+      for (i=0;i<=1000;i++) {
+        sprintf(filename, "run%04d.log", i);
+        if(!SD.exists(filename)) break;
+      }
+      Serial.println(filename);
+      dataFile = SD.open(filename, FILE_WRITE);
       knobLeft.write(0);
       knobRight.write(0);
       positionLeft  = -999;
@@ -70,14 +81,17 @@ void loop() {
       dataString += ",";
       dataString += String(newRight);
       dataFile.println(dataString);
+      Serial.println(dataString);
       
       positionLeft = newLeft;
       positionRight = newRight;
     }
+    delay(30);
   }
   if (!startup) {
+    Serial.println("Done.");
     dataFile.close();
   }
   digitalWrite(loggingLight,LOW);
-  delay(10);
+  delay(100);
 }
